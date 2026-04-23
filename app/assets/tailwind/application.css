@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wow-gold: #f8b700;
+  --color-wow-gold-dark: #b48500;
+  --color-wow-stone: #1a1a1a;
+  --color-wow-edge: #3f3f3f;
+
+  /* Added a more robust font stack */
+  --font-wow: "Friz Quadrata", "Cinzel", "Georgia", serif;
+}
+
+@layer base {
+  body {
+    /* Using a fixed background prevents the gradient from "restarting" as you scroll */
+    @apply bg-[#050505] text-zinc-300 font-wow antialiased;
+    background-image: radial-gradient(circle at center, #111 0%, #050505 100%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .wow-card {
+    /* Added a subtle glassmorphism effect (backdrop-blur) */
+    @apply bg-zinc-900/60 border-y-2 border-wow-gold/20 relative overflow-hidden backdrop-blur-sm;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+  }
+
+  .wow-button {
+    /* Added a linear gradient to the button to give it that "pressed metal" look */
+    @apply bg-gradient-to-b from-amber-600 to-amber-800
+           hover:from-amber-500 hover:to-amber-700
+           text-white font-bold uppercase tracking-[0.2em] px-8 py-3
+           rounded-sm border border-amber-400/40
+           shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-200
+           active:scale-95 active:brightness-90 cursor-pointer;
+
+    /* The "Spell Glow" on hover */
+    &:hover {
+      box-shadow: 0 0 25px rgba(248, 183, 0, 0.2);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+:root {
+  --wow-gold: #f8b700;
+}
+
+/* Ensure images cover the area correctly */
+.bg-cover {
+  background-size: cover;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* This prevents the jump from landing exactly on the text */
+.scroll-mt-24 {
+  scroll-margin-top: 6rem;
+}
+
+@layer utilities {
+  /* Hide scrollbar for the nav on mobile */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Make sure the jump-to location accounts for the fixed 80px (h-20) navbar */
+[id] {
+  scroll-margin-top: 120px;
+}
+
+/* Timeline link hover effect */
+.group:hover span {
+  text-shadow: 0 0 10px rgba(248, 183, 0, 0.5);
+  letter-spacing: 0.25em; /* Slight expansion on hover */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for fixed navbar + a little extra breathing room */
+[id] {
+  scroll-margin-top: 120px;
+}
+
+/* Hide scrollbar on mobile nav while keeping it functional */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* In your CSS file */
+[id] {
+  scroll-margin-top: 160px; /* Adjusted for potential double-row nav */
+}

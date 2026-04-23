@@ -1,0 +1,97 @@
+<%# --- COMPACT MULTI-ROW NAVIGATION --- %>
+<nav class="fixed top-0 left-0 w-full z-[100] bg-black/90 backdrop-blur-xl border-b border-wow-gold/20 shadow-2xl">
+  <div class="max-w-[1400px] mx-auto px-4 py-3">
+    <%# Container for the grid of links %>
+    <div class="flex flex-wrap justify-center gap-x-3 gap-y-2 md:gap-x-6 md:gap-y-3">
+
+      <% @expansions.each_with_index do |exp, i| %>
+        <div class="flex items-center gap-3 md:gap-6">
+          <a href="#<%= exp&.parameterize %>"
+             class="group relative flex flex-col items-center">
+
+            <%# Compact Text - reduced size slightly for better fit %>
+            <span class="text-[8px] md:text-[9px] font-bold text-zinc-500 uppercase tracking-widest group-hover:text-wow-gold transition-all duration-300">
+              <%= abbreviate_expansion(exp) %>
+            </span>
+
+            <%# Minimalist Underline %>
+            <div class="h-px w-0 bg-wow-gold/40 transition-all duration-500 group-hover:w-full"></div>
+          </a>
+
+          <%# Vertical divider (hidden on last item) %>
+          <% unless i == @expansions.size - 1 %>
+            <div class="h-3 w-px bg-white/10 hidden sm:block"></div>
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</nav>
+
+<%# Spacer - adjusted for the new multi-row height %>
+<div class="h-24 md:h-28"></div>
+
+<div class="min-h-screen py-12 px-4 bg-transparent scroll-smooth">
+
+  <%# Main Page Header %>
+  <header class="max-w-4xl mx-auto text-center mb-40">
+    <div class="inline-block mb-4">
+      <div class="flex items-center gap-4">
+        <div class="h-px w-12 bg-wow-gold/50"></div>
+        <span class="text-wow-gold uppercase tracking-[0.5em] text-xs font-bold">The Eternal Archives</span>
+        <div class="h-px w-12 bg-wow-gold/50"></div>
+      </div>
+    </div>
+
+    <h1 class="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter mb-8">
+      World First<br/><span class="text-wow-gold drop-shadow-[0_0_20px_rgba(248,183,0,0.3)]">Chronicles</span>
+    </h1>
+
+
+  </header>
+
+  <div class="max-w-2xl mx-auto">
+    <%# History Grouping %>
+    <% @history.group_by(&:expansion_name).each do |expansion_name, winners| %>
+
+      <%# ANCHOR TARGET %>
+      <div id="<%= expansion_name&.parameterize %>" class="scroll-mt-32 pt-10 mb-40">
+
+        <div class="flex items-center gap-8 mb-24">
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-wow-gold/30 to-transparent"></div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-wow-gold/20 text-[10px] uppercase tracking-[1.5em] font-bold">Expansion</span>
+            <h2 class="text-wow-gold text-2xl md:text-4xl font-black uppercase italic tracking-widest">
+              <%= expansion_name %>
+            </h2>
+          </div>
+          <div class="h-px flex-1 bg-gradient-to-l from-transparent via-wow-gold/30 to-transparent"></div>
+        </div>
+
+        <% winners.each do |winner| %>
+          <div class="relative mb-32 group">
+            <div class="absolute top-full left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-wow-gold/30 to-transparent"></div>
+
+            <article class="relative overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-md hover:border-wow-gold/50 transition-all duration-500 shadow-2xl">
+
+              <div class="relative z-10 p-10 text-center">
+                <h2 class="text-2xl md:text-3xl font-serif italic text-zinc-300 mb-2 tracking-wide">
+                  <%= winner.raid_name %>
+                </h2>
+                <h3 class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-8 group-hover:text-wow-gold transition-colors">
+                  <%= winner.guild_name %>
+                </h3>
+                <div class="flex items-center justify-center gap-4 pt-6 border-t border-white/5">
+                  <span class="text-[10px] text-zinc-500 font-mono tracking-widest uppercase"><%= winner.region %></span>
+                  <div class="w-1 h-1 bg-wow-gold rotate-45"></div>
+                  <span class="text-[10px] text-zinc-500 font-mono tracking-widest uppercase"><%= winner.kill_date.strftime("%B %d, %Y") %></span>
+                </div>
+              </div>
+            </article>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

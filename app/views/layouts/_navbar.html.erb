@@ -1,0 +1,43 @@
+<%# Top Navigation Bar %>
+<nav class="fixed top-0 left-0 w-full z-[100] bg-black/90 backdrop-blur-xl border-b border-wow-gold/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+  <div class="max-w-[1400px] mx-auto px-6">
+    <div class="flex items-center justify-between h-20">
+
+      <%# Brand / Logo %>
+      <div class="hidden lg:flex items-center gap-3">
+        <div class="w-8 h-8 rotate-45 border border-wow-gold/50 flex items-center justify-center">
+          <div class="w-2 h-2 bg-wow-gold"></div>
+        </div>
+        <span class="text-wow-gold font-black uppercase tracking-[0.3em] text-[10px]">Archives</span>
+      </div>
+
+      <%# Timeline Links %>
+      <div class="flex-1 flex justify-center items-center overflow-x-auto no-scrollbar py-2">
+        <div class="flex items-center gap-2 md:gap-8">
+          <% @expansions.each_with_index do |exp, i| %>
+            <a href="#<%= exp.parameterize %>"
+               class="group relative py-2 px-1 flex flex-col items-center whitespace-nowrap">
+
+              <%# The Text %>
+              <span class="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] group-hover:text-wow-gold transition-all duration-300">
+                <%= abbreviate_expansion(exp) %>
+              </span>
+
+              <%# Animated Indicator %>
+              <div class="absolute -bottom-4 w-1 h-1 bg-wow-gold rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500"></div>
+
+              <%# Connection Line between items %>
+              <% unless i == @expansions.size - 1 %>
+                <div class="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 w-px h-2 bg-white/10 hidden sm:block"></div>
+              <% end %>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<%# Spacer so the header isn't hidden under the fixed nav %>
+<div class="h-20"></div>
