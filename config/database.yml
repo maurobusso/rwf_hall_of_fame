@@ -87,3 +87,35 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+
+echo -n "postgresql://postgres:OEjewIEY5jqnt38B@db.ykgpirascdctglundczh.supabase.co:5432/postgres" | \
+gcloud secrets versions add DATABASE_URL --data-file=-
+
+OEjewIEY5jqnt38B
+
+gcloud secrets add-iam-policy-binding DATABASE_URL \
+    --member="serviceAccount:rwf-hall-of-fame-sa@named-totality-431718-j5.iam.gserviceaccount.com" \
+    --role="roles/secretmanager.secretAccessor"
+
+prepared_statements=false
+
+postgresql://postgres:OEjewIEY5jqnt38B@db.ykgpirascdctglundczh.supabase.co:5432/postgres?prepared_statements=false
+
+gcloud run deploy rwf-hall-of-fame \
+  --source . \
+  --region europe-west2 \
+  --service-account rwf-hall-of-fame-sa@named-totality-431718-j5.iam.gserviceaccount.com \
+  --set-secrets="RAILS_MASTER_KEY=RAILS_MASTER_KEY:latest,DATABASE_URL=DATABASE_URL:latest" \
+  --allow-unauthenticated
+
+
+  gcloud run jobs create migrate-db \
+  --image gcr.io/named-totality-431718-j5/rwf-hall-of-fame \
+  --region europe-west2 \
+  --service-account rwf-hall-of-fame-sa@named-totality-431718-j5.iam.gserviceaccount.com \
+  --set-secrets="RAILS_MASTER_KEY=RAILS_MASTER_KEY:latest,DATABASE_URL=DATABASE_URL:latest"
+
+
+  gcloud projects add-iam-policy-binding named-totality-431718-j5 \
+    --member="serviceAccount:681973011667@cloudbuild.gserviceaccount.com" \
+    --role="roles/secretmanager.secretAccessor"
