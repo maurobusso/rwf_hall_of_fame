@@ -25,6 +25,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.hosts.clear
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true
