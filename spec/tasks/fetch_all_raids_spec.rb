@@ -4,7 +4,7 @@ require "rake"
 RSpec.describe "fetch_all_raids:sync" do
   before(:all) do
     # load the rake task from lib/tasks
-    Rake.application.rake_require("fetch_all_raids", ["lib/tasks"]) rescue nil
+    Rake.application.rake_require("fetch_all_raids", [ "lib/tasks" ]) rescue nil
     Rake::Task.define_task(:environment)
   end
 
